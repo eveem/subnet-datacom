@@ -75,3 +75,81 @@ export const IPtoBroadcastAddress = (ip, n) => {
     }
     return ans;
 }
+
+export const totalHost = (networkIP, broadcastIP) => {
+    var ndec = binaryIPtoDec(networkIP), bdec = binaryIPtoDec(broadcastIP);
+    var total = bdec - ndec + 1;
+    return total;
+}
+
+export const totalUsableHost = n => {
+    return n != 1 ? n - 2 : n - 1;
+}
+
+export const usableRange = (networkIP, broadcastIP) => {
+    if (totalHost(networkIP, broadcastIP) <= 2) {
+        return "None";
+    }
+    else {
+        var ndec = binaryIPtoDec(networkIP) + 1;
+        var bdec = binaryIPtoDec(broadcastIP) - 1;
+        var startIP = dectoIP(ndec);
+        var endIP = dectoIP(bdec);
+        return startIP + " - " + endIP;
+    }
+}
+
+export const dectoIP = n => {
+    var binary = n.toString(2);
+    var zero = "0".repeat(32 - binary.length);
+    binary = zero + binary;
+    var ans = "";
+    for (var i = 0; i < 4; i++) {
+        ans += parseInt(binary.substr(8 * i, 8), 2);
+        if (i != 3) {
+            ans += ".";
+        }
+    }
+    return ans;
+}
+
+export const binaryIPtoDec = ip => {
+    var binaryIP = iptoBinary(ip);
+    
+    var binary = "";
+    binaryIP.forEach(function(elm) {
+        binary += elm;
+    });
+
+    var dec = parseInt(binary, 2);
+    return dec;
+}
+
+export const iptoBinary = ip => {
+    var binaryIP = ip.split(".").map((function(elm) {
+        var temp = (+elm).toString(2);
+        var zero = "0".repeat(8 - temp.length);
+        return zero + temp;
+    }));
+    return binaryIP;
+}
+
+export const wildcardMask = ip => {
+    var binaryIP = iptoBinary(ip), ans = "";
+    binaryIP.forEach(function(elm) {
+        for (var i = 0; i < elm.length; i++) {
+            if (elm[i] === "1")
+                ans += "0";
+            else
+                ans += "1";
+        }
+    });
+    var wildcard = dectoIP(parseInt(ans, 2));
+    return wildcard;
+}
+
+export const binaryMask = ip => {
+    var binaryIP = iptoBinary(ip);
+    binaryIP = binaryIP.join(".");
+    return binaryIP;
+}
