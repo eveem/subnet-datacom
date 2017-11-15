@@ -158,3 +158,12 @@ export const networkClass = n => {
     var ans = ["None", "A", "B", "C", "C"];
     return ans[parseInt(n/8)];
 }
+
+export const ipType = ip => {
+    var dec = binaryIPtoDec(ip);
+    if ((dec >= 167772160 && dec <= 184549375) || (dec >= 2886729728 && dec <= 2887778303) || (dec >= 3232235520 && dec <= 3232301055))
+        return "Private";
+    else
+        return "Public";
+    return ip;
+}

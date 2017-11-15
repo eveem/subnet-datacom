@@ -11,7 +11,8 @@ import { plus,
   dectoIP,
   wildcardMask, 
   binaryMask,
-  networkClass } from './helper';
+  networkClass,
+  ipType } from './helper';
 
 describe('test plus', () => {
   it('should plus number', () => {
@@ -129,5 +130,20 @@ describe('networkClass', () => {
     expect(networkClass("16")).to.equal("B");
     expect(networkClass("24")).to.equal("C");
     expect(networkClass("32")).to.equal("C");
+  })
+})
+
+describe('ipType', () => {
+  it('should return public or private', () => {
+    // expect(ipType("10.0.0.0")).to.equal("Private");
+    // expect(ipType("10.1.2.3")).to.equal("Private");
+    // expect(ipType("10.255.255.255")).to.equal("Private");
+    // expect(ipType("172.16.0.0")).to.equal("Private");
+    // expect(ipType("172.25.24.255")).to.equal("Private");
+    // expect(ipType("172.31.255.255")).to.equal("Private");
+    // expect(ipType("192.168.0.0")).to.equal("Private");
+    // expect(ipType("192.168.199.25")).to.equal("Private");
+    expect(ipType("192.168.255.255")).to.equal("Private");
+    expect(ipType("255.255.255.255")).to.equal("Public");
   })
 })
