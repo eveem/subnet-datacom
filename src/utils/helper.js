@@ -153,3 +153,8 @@ export const binaryMask = ip => {
     binaryIP = binaryIP.join(".");
     return binaryIP;
 }
+
+export const networkClass = n => {
+    var ans = ["None", "A", "B", "C", "C"];
+    return ans[parseInt(n/8)];
+}

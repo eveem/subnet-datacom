@@ -10,7 +10,8 @@ import { plus,
   usableRange,
   dectoIP,
   wildcardMask, 
-  binaryMask } from './helper';
+  binaryMask,
+  networkClass } from './helper';
 
 describe('test plus', () => {
   it('should plus number', () => {
@@ -118,5 +119,15 @@ describe('binaryMask', () => {
     expect(binaryMask("255.248.0.0")).to.equal("11111111.11111000.00000000.00000000");
     expect(binaryMask("255.0.0.0")).to.equal("11111111.00000000.00000000.00000000");
     expect(binaryMask("128.0.0.0")).to.equal("10000000.00000000.00000000.00000000");
+  })
+})
+
+describe('networkClass', () => {
+  it('should return network class', () => {
+    expect(networkClass("1")).to.equal("None");
+    expect(networkClass("15")).to.equal("A");
+    expect(networkClass("16")).to.equal("B");
+    expect(networkClass("24")).to.equal("C");
+    expect(networkClass("32")).to.equal("C");
   })
 })
