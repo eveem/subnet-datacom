@@ -167,3 +167,27 @@ export const ipType = ip => {
         return "Public";
     return ip;
 }
+
+export const CIDRnotation = subnet => {
+    var ans = subnet.split(' ');
+    return "/" + ans[2];
+}
+
+export const shortIP = (ip, cidr) => {
+    return ip + cidr;
+}
+
+export const binaryID = ip => {
+    var ans = iptoBinary(ip).join('');
+    return ans;
+}
+
+export const integerID = bin => {
+    var ans = parseInt(bin, 2);
+    return ans;
+}
+
+export const hexID = dec => {
+    var ans = dec.toString(16);
+    return ans;
+}

@@ -12,7 +12,12 @@ import { plus,
   wildcardMask, 
   binaryMask,
   networkClass,
-  ipType } from './helper';
+  ipType,
+  CIDRnotation,
+  shortIP, 
+  binaryID, 
+  integerID, 
+  hexID } from './helper';
 
 describe('test plus', () => {
   it('should plus number', () => {
@@ -145,5 +150,45 @@ describe('ipType', () => {
     expect(ipType("192.168.199.25")).to.equal("Private");
     expect(ipType("192.168.255.255")).to.equal("Private");
     expect(ipType("255.255.255.255")).to.equal("Public");
+  })
+})
+
+describe('CIDRnotation', () => {
+  it('should return / number CIDR from subnet', () => {
+    expect(CIDRnotation("255.255.255.0 / 24")).to.equal("/24");
+    expect(CIDRnotation("128.0.0.0 / 1")).to.equal("/1");
+  })
+})
+
+describe('shortIP', () => {
+  it('should return ip add CIDR', () => {
+    expect(shortIP("158.108.12.31", "/1")).to.equal("158.108.12.31/1");
+    expect(shortIP("158.108.12.111", "/29")).to.equal("158.108.12.111/29");
+  })
+})
+
+describe('binaryID', () => {
+  it('should return ip in binary', () => {
+    expect(binaryID("128.0.0.0")).to.equal("10000000000000000000000000000000");
+    expect(binaryID("255.255.255.255")).to.equal("11111111111111111111111111111111");
+    expect(binaryID("255.1.1.255")).to.equal("11111111000000010000000111111111");
+  })
+})
+
+describe('integerID', () => {
+  it('should return ip in decimal', () => {
+    expect(integerID("10000000000000000000000000000000")).to.equal(2147483648);
+    expect(integerID("11111111111111111111111111111111")).to.equal(4294967295);
+    expect(integerID("11111111000000010000000111111111")).to.equal(4278256127);
+    expect(integerID("1")).to.equal(1);
+  })
+})
+
+describe('hexID', () => {
+  it('should return ip in hex', () => {
+    expect(hexID(2147483648)).to.equal("80000000");
+    expect(hexID(4294967295)).to.equal("ffffffff");
+    expect(hexID(4278256127)).to.equal("ff0101ff");
+    expect(hexID(1)).to.equal("1");
   })
 })
