@@ -3,14 +3,22 @@ import { Button, Dropdown, Form, Radio } from 'semantic-ui-react';
 import { networkClassSplit } from './utils/helper.js';
 
 function generateSubnet(c) {
-  return networkClassSplit(c);
+  let subnetList = networkClassSplit(c);
+  let result = subnetList.map((subnet, i) =>
+    ({ key: i,
+      value: subnet,
+      text: subnet
+    })
+  )
+  return result;
 }
 
 class App extends Component {
   state = {
     networkType: ['Any', 'A', 'B', 'C'],
     networkClass: 'Any',
-    subnetList: generateSubnet('Any')
+    subnetList: generateSubnet('Any'),
+    subnetNow: '255.255.255.255 / 32',
   };
   handleChangeRadio = (e, { value }) => {
     this.setState({ 
@@ -18,8 +26,13 @@ class App extends Component {
       networkClass: value
     })
   }
+  handleChangeDropdown = (e, { value }) => {
+    this.setState({ 
+      subnetNow: value
+    })
+  }
   render() {
-    console.log(this.state.subnetList);
+    console.log(this.state.subnetNow);
     return (
       <div className="App">
         <h1>IP Subnet Calculator</h1>
@@ -36,6 +49,12 @@ class App extends Component {
             </Form.Field>
         )}
         </Form>
+        <Dropdown placeholder='select IP' 
+                  search selection options={this.state.subnetList} 
+                  name='subnet' 
+                  value={this.state.subnetList.value}
+                  onChange={this.handleChangeDropdown} 
+        />
       </div>
     );
   }
