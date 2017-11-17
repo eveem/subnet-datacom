@@ -17,7 +17,9 @@ import { plus,
   shortIP, 
   binaryID, 
   integerID, 
-  hexID } from './helper';
+  hexID,
+  networkFix,
+  allPossibleNetwork } from './helper';
 
 describe('test plus', () => {
   it('should plus number', () => {
@@ -63,6 +65,7 @@ describe('IPtoNetworkAddress', () => {
     expect(IPtoNetworkAddress("178.233.14.6", 29)).to.equal("178.233.14.0");
     expect(IPtoNetworkAddress("129.1.11.50", 27)).to.equal("129.1.11.32");
     expect(IPtoNetworkAddress("255.255.255.255", 32)).to.equal("255.255.255.255");
+    expect(IPtoNetworkAddress("0.0.0.0", 14)).to.equal("0.0.0.0");
   })
 })
 
@@ -110,6 +113,8 @@ describe('dectoIP', () => {
   it('should return IP from decimal', () => {
     expect(dectoIP(4294967294)).to.equal("255.255.255.254");
     expect(dectoIP(4293918721)).to.equal("255.240.0.1");
+    expect(dectoIP(0)).to.equal("0.0.0.0");
+    expect(dectoIP(1)).to.equal("0.0.0.1");
   })
 })
 
@@ -190,5 +195,23 @@ describe('hexID', () => {
     expect(hexID(4294967295)).to.equal("ffffffff");
     expect(hexID(4278256127)).to.equal("ff0101ff");
     expect(hexID(1)).to.equal("1");
+  })
+})
+
+describe('networkFix', () => {
+  it('should return ip with fix position', () => {
+    expect(networkFix(0, "158.108.11.23")).to.equal("*.*.*.*");
+    expect(networkFix(8, "158.108.11.23")).to.equal("158.*.*.*");
+    expect(networkFix(16, "158.108.11.23")).to.equal("158.108.*.*");
+    expect(networkFix(32, "158.108.11.23")).to.equal("158.108.11.*");
+  })
+})
+
+describe('allPossibleNetwork', () => {
+  it('should return all network possible split from cidr', () => {
+    // allPossibleNetwork(3, "158.108.11.23");
+    // allPossibleNetwork(11, "158.108.11.23");
+    // allPossibleNetwork(16, "158.108.11.23");
+    allPossibleNetwork(32, "158.108.11.23");
   })
 })

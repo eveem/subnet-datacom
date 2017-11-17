@@ -191,3 +191,70 @@ export const hexID = dec => {
     var ans = dec.toString(16);
     return ans;
 }
+
+export const networkFix = (cidr, ip) => {
+    var ans = "";
+    var temp = ip.split('.');
+    if (cidr < 8) {
+        temp[0] = "*";
+        temp[1] = "*";
+        temp[2] = "*";
+        temp[3] = "*";
+    }
+    else if (cidr < 16) {
+        temp[1] = "*";
+        temp[2] = "*";
+        temp[3] = "*";
+    }
+    else if (cidr < 24) {
+        temp[2] = "*";
+        temp[3] = "*";
+    }
+    else if (cidr <= 32) {
+        temp[3] = "*";
+    }
+    ans = temp.join('.');
+    return ans;
+}
+
+export const allPossibleNetwork = (cidr, ip) => {
+    if (cidr == 32)
+        cidr = 31;
+    var group = parseInt(cidr/8);
+    ip = iptoBinary(ip);
+    ip = ip.join('');
+    
+    var seedIP = ip.substr(0, group*8);
+    // console.log(seedIP);
+
+    var startIP = [];
+    var endIP = [];
+    var useableIP = [];
+    for (var i = 0; i < 2**(cidr%8); i++) {
+        var b2 = i.toString(2);
+        if (b2.length <= (cidr%8)) {
+            b2 = "0".repeat((cidr%8) - b2.length) + b2;
+        }
+        var sb2 = seedIP + b2, eb2 = seedIP + b2;
+        sb2 += "0".repeat(32 - sb2.length);
+        eb2 += "1".repeat(32 - eb2.length);
+
+        // console.log(eb2);
+
+        var sintIP = parseInt(sb2, 2), eintIP = parseInt(eb2, 2);
+        startIP.push(dectoIP(sintIP));
+        endIP.push(dectoIP(eintIP));
+            
+        var stuse = dectoIP(sintIP + 1), eduse = dectoIP(eintIP - 1);
+        useableIP.push(stuse + " - " + eduse);
+    }
+    // console.log(startIP);
+    // console.log(useableIP);
+    // console.log(endIP);
+    var result = {
+        startIP,
+        useableIP,
+        endIP
+    }
+    return result;
+}
