@@ -8,7 +8,7 @@ export const convertToSubnet = n => {
     var ans = "";
     for (var i = 0; i < 4; i++) {
         ans += parseInt(str.substr(8 * i, 8), 2);
-        if (i != 3) {
+        if (i !== 3) {
             ans += ".";
         }
     }
@@ -47,7 +47,7 @@ export const IPtoNetworkAddress = (ip, n) => {
     var ans = "";
     for (var i = 0; i < 4; i++) {
         ans += parseInt(networkIP.substr(8 * i, 8), 2);
-        if (i != 3) {
+        if (i !== 3) {
             ans += ".";
         }
     }
@@ -69,7 +69,7 @@ export const IPtoBroadcastAddress = (ip, n) => {
     var ans = "";
     for (var i = 0; i < 4; i++) {
         ans += parseInt(boardcastIP.substr(8 * i, 8), 2);
-        if (i != 3) {
+        if (i !== 3) {
             ans += ".";
         }
     }
@@ -83,7 +83,7 @@ export const totalHost = (networkIP, broadcastIP) => {
 }
 
 export const totalUsableHost = n => {
-    return n != 1 ? n - 2 : n - 1;
+    return n !== 1 ? n - 2 : n - 1;
 }
 
 export const usableRange = (networkIP, broadcastIP) => {
@@ -106,7 +106,7 @@ export const dectoIP = n => {
     var ans = "";
     for (var i = 0; i < 4; i++) {
         ans += parseInt(binary.substr(8 * i, 8), 2);
-        if (i != 3) {
+        if (i !== 3) {
             ans += ".";
         }
     }
@@ -218,7 +218,7 @@ export const networkFix = (cidr, ip) => {
 }
 
 export const allPossibleNetwork = (cidr, ip) => {
-    if (cidr == 32)
+    if (cidr === 32)
         cidr = 31;
     var group = parseInt(cidr/8);
     ip = iptoBinary(ip);
