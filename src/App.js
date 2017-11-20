@@ -9,7 +9,14 @@ import { networkClassSplit,
          convertToSubnet,
          wildcardMask,
          binaryMask,
-         networkClass} from './utils/helper.js';
+         networkClass,
+         CIDRnotation,
+         ipType,
+         shortIP,
+         binaryID,
+         integerID,
+         hexID,
+         iptoBinary} from './utils/helper.js';
 
 function generateSubnet(c) {
   let subnetList = networkClassSplit(c);
@@ -39,19 +46,20 @@ class App extends Component {
     })
   }
   handleChangeDropdown = (e, { value }) => {
-    console.log('mask', value);
+    // console.log('mask', value);
     this.setState({ 
       mask: value,
+      subnet: this.state.subnetList[32 - value].text
     })
   }
   handleInput = (event) => {
-    console.log('ip', event.target.value);
+    // console.log('ip', event.target.value);
     this.setState({
-      ip: event.target.value
+      ip: event.target.value,
     })
   }
   handleClick = (e) => {
-    const { ip, mask } = this.state;
+    const { ip, mask, subnet } = this.state;
     this.setState({
       check: true,
       ipshow: ip,
@@ -61,9 +69,15 @@ class App extends Component {
       totalhost: totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask)),
       totalusablehost: totalUsableHost(totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask))),
       subnetmask: convertToSubnet(mask),
-      wildcardmask: wildcardMask(ip),
-      binarymask: binaryMask(ip),
-      networkclass: networkClass(mask)
+      wildcardmask: wildcardMask(subnet),
+      binmask: binaryMask(convertToSubnet(mask)),
+      networkclass: networkClass(mask),
+      cidr: CIDRnotation(subnet),
+      iptype: ipType(ip),
+      shortip: shortIP(ip, CIDRnotation(subnet)),
+      binaryid: binaryID(ip),
+      integerid: integerID(binaryID(ip)),
+      hexid: hexID(integerID(binaryID(ip)))
     })
   }
   
@@ -211,7 +225,7 @@ class App extends Component {
                       </Header>
                     </Table.Cell>
                     <Table.Cell>
-                      {this.state.binarymask}
+                      {this.state.binmask}
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
@@ -224,6 +238,78 @@ class App extends Component {
                     </Table.Cell>
                     <Table.Cell>
                       {this.state.networkclass}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          CIDR Notation
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.cidr}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          IP type
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.iptype}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Short
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.shortip}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Binary ID
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.binaryid}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Integer ID
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.integerid}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Hex ID
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.hexid}
                     </Table.Cell>
                   </Table.Row>
                 </Table.Body>
