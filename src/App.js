@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Form, Radio, Input } from 'semantic-ui-react';
-import { networkClassSplit } from './utils/helper.js';
+import { Button, Dropdown, Form, Radio, Input, Table, Header, Image } from 'semantic-ui-react';
+import { networkClassSplit, 
+         IPtoNetworkAddress,
+         IPtoBroadcastAddress, 
+         usableRange, 
+         totalHost,
+         totalUsableHost,
+         convertToSubnet,
+         wildcardMask,
+         binaryMask,
+         networkClass} from './utils/helper.js';
 
 function generateSubnet(c) {
   let subnetList = networkClassSplit(c);
   let result = subnetList.map((subnet, i) =>
     ({ key: i,
-      value: subnet,
+      value: 32 - i,
       text: subnet
     })
   )
+  console.log(result);
   return result;
 }
 
@@ -18,9 +28,9 @@ class App extends Component {
     networkType: ['Any', 'A', 'B', 'C'],
     networkClass: 'Any',
     subnetList: generateSubnet('Any'),
-    subnetNow: '255.255.255.255 / 32',
-    ip: '',
-    check: false
+    mask: 1,
+    ip: '158.128.0.23',
+    check: false,
   };
   handleChangeRadio = (e, { value }) => {
     this.setState({ 
@@ -29,29 +39,35 @@ class App extends Component {
     })
   }
   handleChangeDropdown = (e, { value }) => {
+    console.log('mask', value);
     this.setState({ 
-      subnetNow: value
+      mask: value,
     })
   }
   handleInput = (event) => {
+    console.log('ip', event.target.value);
     this.setState({
       ip: event.target.value
     })
   }
   handleClick = (e) => {
+    const { ip, mask } = this.state;
     this.setState({
-      check: true
+      check: true,
+      ipshow: ip,
+      networkAddress: IPtoNetworkAddress(ip, mask),
+      broadcastAddress: IPtoBroadcastAddress(ip, mask),
+      usable: usableRange(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask)),
+      totalhost: totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask)),
+      totalusablehost: totalUsableHost(totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask))),
+      subnetmask: convertToSubnet(mask),
+      wildcardmask: wildcardMask(ip),
+      binarymask: binaryMask(ip),
+      networkclass: networkClass(mask)
     })
   }
-  handleKeyPress = (e) => {
-    if (e.charCode === 13) {
-      this.setState({
-        check: true
-      })
-    }
-  }
+  
   render() {
-    console.log(this.state.check);
     return (
       <div className="App">
         <h1>IP Subnet Calculator</h1>
@@ -72,7 +88,7 @@ class App extends Component {
           placeholder='select IP' 
           search selection options={this.state.subnetList} 
           name='subnet' 
-          value={this.state.subnetList.value}
+          value={this.state.subnetList.key}
           onChange={this.handleChangeDropdown} 
         />
         <Input 
@@ -82,10 +98,139 @@ class App extends Component {
           onChange={this.handleInput}
         />
         <Button 
-          onClick={this.handleClick}
-          onKeyPress={this.handleKeyPress}>
+          onClick={this.handleClick}>
           Calculate
         </Button>
+        <div className="Result" >
+        { this.state.check &&
+            <span>
+              <Table basic='very' celled collapsing>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          IP Address
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.ipshow}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Network Address
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.networkAddress}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Broadcast Address
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.broadcastAddress}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Usable host IP range
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.usable}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Total number of hosts
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.totalhost}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Total number of usable hosts
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.totalusablehost}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Subnet mask
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.subnetmask}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Wildcard mask
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.wildcardmask}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          Binary subnet mask
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.binarymask}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Header as='h4'>
+                        <Header.Content>
+                          IP class
+                        </Header.Content>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.networkclass}
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </span>
+        }
+        </div>
       </div>
     );
   }
