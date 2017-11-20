@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Form, Radio, Input, Table, Header, Image } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Radio, Input, Table, Header } from 'semantic-ui-react';
 import { networkClassSplit, 
          IPtoNetworkAddress,
          IPtoBroadcastAddress, 
@@ -16,7 +16,7 @@ import { networkClassSplit,
          binaryID,
          integerID,
          hexID,
-         iptoBinary} from './utils/helper.js';
+         allPossibleNetwork } from './utils/helper.js';
 
 function generateSubnet(c) {
   let subnetList = networkClassSplit(c);
@@ -26,7 +26,7 @@ function generateSubnet(c) {
       text: subnet
     })
   )
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
@@ -77,7 +77,8 @@ class App extends Component {
       shortip: shortIP(ip, CIDRnotation(subnet)),
       binaryid: binaryID(ip),
       integerid: integerID(binaryID(ip)),
-      hexid: hexID(integerID(binaryID(ip)))
+      hexid: hexID(integerID(binaryID(ip))),
+      allpos: allPossibleNetwork(mask, ip)
     })
   }
   
@@ -316,6 +317,30 @@ class App extends Component {
               </Table>
             </span>
         }
+        </div>
+        <div className="allpossible">
+        {/* <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Header</Table.HeaderCell>
+              <Table.HeaderCell>Header</Table.HeaderCell>
+              <Table.HeaderCell>Header</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+          { this.state.check ?
+            this.state.allpos.map((result) =>
+              <Table.Row>
+                <Table.Cell>Cell</Table.Cell>
+                <Table.Cell>Cell</Table.Cell>
+                <Table.Cell>Cell</Table.Cell>
+              </Table.Row>
+            )
+            :
+            ''
+          }
+          </Table.Body>
+        </Table> */}
         </div>
       </div>
     );
