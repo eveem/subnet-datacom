@@ -85,9 +85,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1></h1>
         <h1>IP Subnet Calculator</h1>
         <Form>
-        { this.state.networkType.map((c) =>
+          <Form.Group inline>
+          <label>Network class</label>
+          { this.state.networkType.map((c) =>
             <Form.Field>
               <Radio
                 label={c}
@@ -95,11 +98,12 @@ class App extends Component {
                 value={c}
                 checked={this.state.networkClass === c}
                 onChange={this.handleChangeRadio}
-              />
+            />
             </Form.Field>
-        )}
+          )}
+          </Form.Group>
         </Form>
-        <Dropdown 
+        <Dropdown
           placeholder='select IP' 
           search selection options={this.state.subnetList} 
           name='subnet' 
