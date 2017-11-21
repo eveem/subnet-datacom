@@ -16,7 +16,8 @@ import { networkClassSplit,
          binaryID,
          integerID,
          hexID,
-         allPossibleNetwork } from './utils/helper.js';
+         allPossibleNetwork,
+         isIPv4 } from './utils/helper.js';
 
 function generateSubnet(c) {
   let subnetList = networkClassSplit(c);
@@ -35,7 +36,7 @@ class App extends Component {
     networkType: ['Any', 'A', 'B', 'C'],
     networkClass: 'Any',
     subnetList: generateSubnet('Any'),
-    mask: 1,
+    mask: 0,
     ip: '158.128.0.23',
     subnet: '128.0.0.0 / 1',
     check: false,
@@ -129,13 +130,13 @@ class App extends Component {
                   onChange={this.handleInput}
                 />
                 <Dropdown style={{'margin-bottom':'10px'}}
-                  placeholder='Select subnet' 
+                  placeholder='Please select subnet' 
                   fluid search selection options={this.state.subnetList} 
                   name='subnet' 
                   value={this.state.subnetList.key}
                   onChange={this.handleChangeDropdown} 
                 />
-                <Button color='teal' fluid size='large' onClick={this.handleClick}>Calculate</Button>
+                <Button disabled={!isIPv4(this.state.ip) || this.state.mask===0} color='teal' fluid size='large' onClick={this.handleClick}>Calculate</Button>
               </Segment>
             </Form>
           </Grid.Column>
