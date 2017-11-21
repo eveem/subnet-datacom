@@ -1,5 +1,5 @@
-clone
+# Subnet calculator
 
-npm install
+Monpriy Tammavong 5810504531
 
-npm start
+[Link to website](https://eveem.github.io/subnet-datacom/)
