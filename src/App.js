@@ -363,7 +363,7 @@ class App extends Component {
               style={{ height: '100%' }}
               verticalAlign='middle'
             >
-            <Grid.Column style={{ maxWidth: 520 }}>
+            <Grid.Column style={{ maxWidth: 535 }}>
               <Header as='h3' color='teal' textAlign='center' style={{'margin-top':'40px'}}>
                 <Icon name='list layout' />
                 {' '}All possible network
