@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Form, Radio, Input, Table, Header } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Radio, Input, Table, Header, Grid } from 'semantic-ui-react';
 import { networkClassSplit, 
          IPtoNetworkAddress,
          IPtoBroadcastAddress, 
@@ -86,7 +86,13 @@ class App extends Component {
     return (
       <div className="App">
         <h1></h1>
+        <Grid centered columns={5}>
+        <Grid.Column>
         <h1>IP Subnet Calculator</h1>
+        </Grid.Column>
+        </Grid>
+        <Grid centered>
+        <Grid.Column width={4}>
         <Form>
           <Form.Group inline>
           <label>Network class</label>
@@ -103,23 +109,35 @@ class App extends Component {
           )}
           </Form.Group>
         </Form>
-        <Dropdown
-          placeholder='select IP' 
-          search selection options={this.state.subnetList} 
-          name='subnet' 
-          value={this.state.subnetList.key}
-          onChange={this.handleChangeDropdown} 
-        />
+        </Grid.Column>
+        </Grid>
+        <Grid centered columns={5}>
+        <Grid.Column>
         <Input 
           focus placeholder='IP Address'
           label='IP Address'
           value={this.state.ip}
           onChange={this.handleInput}
         />
-        <Button 
-          onClick={this.handleClick}>
-          Calculate
-        </Button>
+        </Grid.Column>
+        </Grid>
+        <Grid container centered>
+        <Grid.Column width={3}>
+        <Dropdown
+          placeholder='Select subnet' 
+          fluid search selection options={this.state.subnetList} 
+          name='subnet' 
+          value={this.state.subnetList.key}
+          onChange={this.handleChangeDropdown} 
+        />
+        </Grid.Column>
+        <Grid.Column width={2}>
+            <Button 
+              onClick={this.handleClick}>
+              Calculate
+            </Button>
+        </Grid.Column>
+        </Grid>
         <div className="Result" >
         { this.state.check &&
             <span>
