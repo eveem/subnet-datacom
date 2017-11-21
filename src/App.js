@@ -84,7 +84,7 @@ class App extends Component {
       allpos: allPossibleNetwork(mask, ip).useableIP,
       resultall: allPossibleNetwork(mask, ip)
     })
-    console.log(this.state.resultall);
+    // console.log(this.state.resultall);
   }
   
   render() {
