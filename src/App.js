@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Form, Radio, Input, Table, Header, Grid, Image, Segment, Message, Icon, Body } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Radio, Input, Table, Header, Grid, Image, Segment, Message, Icon, Body, Divider } from 'semantic-ui-react';
 import { networkClassSplit, 
          IPtoNetworkAddress,
          IPtoBroadcastAddress, 
@@ -37,6 +37,7 @@ class App extends Component {
     subnetList: generateSubnet('Any'),
     mask: 1,
     ip: '158.128.0.23',
+    subnet: '128.0.0.0 / 1',
     check: false,
   };
   handleChangeRadio = (e, { value }) => {
@@ -137,12 +138,23 @@ class App extends Component {
         </Grid>
         <div className="Result" >
         { this.state.check &&
-            <span>
-              <Table basic='very' celled collapsing>
+            <Grid
+            color='teal'
+            textAlign='center'
+            style={{ height: '100%' }}
+            verticalAlign='middle'
+          >
+            <Grid.Column style={{ maxWidth: 535 }}>
+              <Header as='h3' color='teal' textAlign='center' style={{'margin-top':'40px'}}>
+                <Icon name='list layout' />
+                {' '}Results
+              </Header>
+              <Divider />
+              <Table celled collapsing style={{'display':'flex'}} selectable>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                      <Header as='h4' color='teal'>
                         <Header.Content>
                           IP Address
                         </Header.Content>
@@ -154,7 +166,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                      <Header as='h4' color='teal'>
                         <Header.Content>
                           Network Address
                         </Header.Content>
@@ -166,7 +178,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Broadcast Address
                         </Header.Content>
@@ -178,7 +190,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Usable host IP range
                         </Header.Content>
@@ -190,7 +202,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Total number of hosts
                         </Header.Content>
@@ -202,7 +214,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Total number of usable hosts
                         </Header.Content>
@@ -214,7 +226,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Subnet mask
                         </Header.Content>
@@ -226,7 +238,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Wildcard mask
                         </Header.Content>
@@ -238,7 +250,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Binary subnet mask
                         </Header.Content>
@@ -250,7 +262,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           IP class
                         </Header.Content>
@@ -262,7 +274,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           CIDR Notation
                         </Header.Content>
@@ -274,7 +286,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           IP type
                         </Header.Content>
@@ -286,7 +298,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Short
                         </Header.Content>
@@ -298,7 +310,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Binary ID
                         </Header.Content>
@@ -310,7 +322,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Integer ID
                         </Header.Content>
@@ -322,7 +334,7 @@ class App extends Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>
-                      <Header as='h4'>
+                    <Header as='h4' color='teal'>
                         <Header.Content>
                           Hex ID
                         </Header.Content>
@@ -334,7 +346,8 @@ class App extends Component {
                   </Table.Row>
                 </Table.Body>
               </Table>
-            </span>
+            </Grid.Column>
+          </Grid>
         }
         </div>
         <div className="allpossible">
