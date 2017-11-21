@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Form, Radio, Input, Table, Header, Grid } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Radio, Input, Table, Header, Grid, Image, Segment, Message, Icon, Body } from 'semantic-ui-react';
 import { networkClassSplit, 
          IPtoNetworkAddress,
          IPtoBroadcastAddress, 
@@ -86,57 +86,54 @@ class App extends Component {
     return (
       <div className="App">
         <h1></h1>
-        <Grid centered columns={5}>
-        <Grid.Column>
-        <h1>IP Subnet Calculator</h1>
-        </Grid.Column>
-        </Grid>
-        <Grid centered>
-        <Grid.Column width={4}>
-        <Form>
-          <Form.Group inline>
-          <label>Network class</label>
-          { this.state.networkType.map((c) =>
-            <Form.Field>
-              <Radio
-                label={c}
-                name='radioGroup'
-                value={c}
-                checked={this.state.networkClass === c}
-                onChange={this.handleChangeRadio}
-            />
-            </Form.Field>
-          )}
-          </Form.Group>
-        </Form>
-        </Grid.Column>
-        </Grid>
-        <Grid centered columns={5}>
-        <Grid.Column>
-        <Input 
-          focus placeholder='IP Address'
-          label='IP Address'
-          value={this.state.ip}
-          onChange={this.handleInput}
-        />
-        </Grid.Column>
-        </Grid>
-        <Grid container centered>
-        <Grid.Column width={3}>
-        <Dropdown
-          placeholder='Select subnet' 
-          fluid search selection options={this.state.subnetList} 
-          name='subnet' 
-          value={this.state.subnetList.key}
-          onChange={this.handleChangeDropdown} 
-        />
-        </Grid.Column>
-        <Grid.Column width={2}>
-            <Button 
-              onClick={this.handleClick}>
-              Calculate
-            </Button>
-        </Grid.Column>
+        <Grid
+          color='teal'
+          textAlign='center'
+          style={{ height: '100%' }}
+          verticalAlign='middle'
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+              <Icon circular name='calculator' />
+              {' '}IP Subnet Calculator
+            </Header>
+            <Form size='large'>
+              <Segment stacked>
+                <Form.Input centered style={{'justify-content': 'space-around', 'margin-bottom':'-10px'}}>
+                  <Form.Group inline fluid>
+                    <Header as='label' color='teal'>Network class</Header>
+                      { this.state.networkType.map((c) =>
+                      <Form.Field>
+                        <Radio
+                          name='radioGroup'
+                          value={c}
+                          checked={this.state.networkClass === c}
+                          onChange={this.handleChangeRadio}
+                        />
+                        <Header as='p' color='teal'>{c}</Header>
+                      </Form.Field>
+                      )}
+                  </Form.Group>
+                </Form.Input>
+                <Input style={{'margin-bottom':'10px'}}
+                  action={{ color: 'teal', labelPosition: 'left', icon: 'linkify', content: 'IP Address' }}
+                  actionPosition='left'
+                  fluid
+                  placeholder='IP Address'
+                  value={this.state.ip}
+                  onChange={this.handleInput}
+                />
+                <Dropdown style={{'margin-bottom':'10px'}}
+                  placeholder='Select subnet' 
+                  fluid search selection options={this.state.subnetList} 
+                  name='subnet' 
+                  value={this.state.subnetList.key}
+                  onChange={this.handleChangeDropdown} 
+                />
+                <Button color='teal' fluid size='large' onClick={this.handleClick}>Calculate</Button>
+              </Segment>
+            </Form>
+          </Grid.Column>
         </Grid>
         <div className="Result" >
         { this.state.check &&
