@@ -246,7 +246,12 @@ export const allPossibleNetwork = (cidr, ip) => {
         endIP.push(dectoIP(eintIP));
             
         var stuse = dectoIP(sintIP + 1), eduse = dectoIP(eintIP - 1);
-        useableIP.push(stuse + " - " + eduse);
+        if (sintIP + 1 < eintIP - 1) {
+            useableIP.push(stuse + " - " + eduse);
+        }
+        else {
+            useableIP.push('None');
+        }
     }
     // console.log(startIP);
     // console.log(useableIP);

@@ -362,14 +362,16 @@ class App extends Component {
               textAlign='center'
               style={{ height: '100%' }}
               verticalAlign='middle'
+              columns='equal'
+              centered
             >
-            <Grid.Column style={{ maxWidth: 550 }}>
+            <Grid.Column style={{ maxWidth: 550 }} centered>
               <Header as='h3' color='teal' textAlign='center' style={{'margin-top':'40px'}}>
                 <Icon name='list layout' />
                 {' '}All possible network
               </Header>
               <Divider />
-              <Table celled collapsing selectable color='teal'>
+              <Table celled collapsing selectable color='teal' centered>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell textAlign='center'>Network Address</Table.HeaderCell>
