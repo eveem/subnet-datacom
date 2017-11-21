@@ -70,7 +70,7 @@ class App extends Component {
       totalhost: totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask)),
       totalusablehost: totalUsableHost(totalHost(IPtoNetworkAddress(ip, mask), IPtoBroadcastAddress(ip, mask))),
       subnetmask: convertToSubnet(mask),
-      wildcardmask: wildcardMask(subnet),
+      wildcardmask: wildcardMask(convertToSubnet(mask)),
       binmask: binaryMask(convertToSubnet(mask)),
       networkclass: networkClass(mask),
       cidr: CIDRnotation(subnet),
@@ -79,8 +79,12 @@ class App extends Component {
       binaryid: binaryID(ip),
       integerid: integerID(binaryID(ip)),
       hexid: hexID(integerID(binaryID(ip))),
-      allpos: allPossibleNetwork(mask, ip)
+      allposnet: allPossibleNetwork(mask, ip).startIP,
+      allposbroad: allPossibleNetwork(mask, ip).endIP,
+      allpos: allPossibleNetwork(mask, ip).useableIP,
+      resultall: allPossibleNetwork(mask, ip)
     })
+    console.log(this.state.resultall);
   }
   
   render() {
@@ -136,21 +140,21 @@ class App extends Component {
             </Form>
           </Grid.Column>
         </Grid>
-        <div className="Result" >
+        <div className="Result">
         { this.state.check &&
             <Grid
-            color='teal'
-            textAlign='center'
-            style={{ height: '100%' }}
-            verticalAlign='middle'
-          >
+              color='teal'
+              textAlign='center'
+              style={{ height: '100%' }}
+              verticalAlign='middle'
+            >
             <Grid.Column style={{ maxWidth: 535 }}>
               <Header as='h3' color='teal' textAlign='center' style={{'margin-top':'40px'}}>
-                <Icon name='list layout' />
+                <Icon name='book' />
                 {' '}Results
               </Header>
               <Divider />
-              <Table celled collapsing style={{'display':'flex'}} selectable>
+              <Table celled collapsing style={{'display':'flex'}} selectable striped>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell>
@@ -351,28 +355,41 @@ class App extends Component {
         }
         </div>
         <div className="allpossible">
-        {/* <Table celled>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Header</Table.HeaderCell>
-              <Table.HeaderCell>Header</Table.HeaderCell>
-              <Table.HeaderCell>Header</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-          { this.state.check ?
-            this.state.allpos.map((result) =>
-              <Table.Row>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-              </Table.Row>
-            )
-            :
-            ''
-          }
-          </Table.Body>
-        </Table> */}
+        { this.state.check &&
+            <Grid
+              color='teal'
+              textAlign='center'
+              style={{ height: '100%' }}
+              verticalAlign='middle'
+            >
+            <Grid.Column style={{ maxWidth: 520 }}>
+              <Header as='h3' color='teal' textAlign='center' style={{'margin-top':'40px'}}>
+                <Icon name='list layout' />
+                {' '}All possible network
+              </Header>
+              <Divider />
+              <Table celled collapsing selectable color='teal'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell textAlign='center'>Network Address</Table.HeaderCell>
+                    <Table.HeaderCell textAlign='center'>Usable Host Range</Table.HeaderCell>
+                    <Table.HeaderCell textAlign='center'>Broadcast Address</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                { this.state.resultall.startIP.map((c, i) =>
+                    <Table.Row>
+                      <Table.Cell>{c}</Table.Cell>
+                      <Table.Cell>{this.state.allpos[i]}</Table.Cell>
+                      <Table.Cell>{this.state.allposbroad[i]}</Table.Cell>
+                    </Table.Row>
+                  )
+                }
+                </Table.Body>
+              </Table>
+            </Grid.Column>
+          </Grid>
+        }
         </div>
       </div>
     );
