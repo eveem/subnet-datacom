@@ -392,7 +392,7 @@ class App extends Component {
           </Grid>
         }
         </div>
-        <Header as='h5' color='teal' textAlign='center'>created by [5810504531 <a href="https://github.com/eveem/subnet-datacom" target="_blank">monpriya</a>]</Header>
+        <Header as='h5' color='teal' textAlign='center' style={{'margin-bottom':'20px'}}>created by [5810504531 <a href="https://github.com/eveem/subnet-datacom" target="_blank">monpriya</a>]</Header>
       </div>
     );
   }
